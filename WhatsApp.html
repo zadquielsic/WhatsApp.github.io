@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA COMPROMETIDO...</title>
+    <meta name="description" content="Página de concientización y recomendaciones de seguridad ante simulaciones de phishing del Banco del Tesoro.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --bg-color: #0f172a;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-red: #ef4444;
+    --accent-red-glow: rgba(239, 68, 68, 0.5);
+    --accent-blue: #3b82f6;
+    --accent-blue-glow: rgba(59, 130, 246, 0.4);
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --card-bg: rgba(15, 23, 42, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* =========================================
+   PANTALLA DE SUSTO (SCARE SCREEN)
+   ========================================= */
+.scare-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #050505;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #ff003c;
+    font-family: 'Share Tech Mono', monospace;
+    overflow: hidden;
+    transition: transform 1.2s cubic-bezier(0.8, -0.2, 0.2, 1);
+    box-shadow: inset 0 0 150px rgba(255, 0, 0, 0.2);
+}
+
+.scare-screen.slide-down-reveal {
+    /* La pantalla de susto cae hacia abajo revelando la página real */
+    transform: translateY(100vh);
+}
+
+.scare-content {
+    text-align: center;
+    max-width: 800px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.skull-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1.5rem;
+    animation: shake 0.4s infinite;
+    filter: drop-shadow(0 0 10px #ff003c);
+}
+
+@keyframes shake {
+    0% { transform: translate(2px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(0px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(2px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(2px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.glitch-text {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 #00ff00, -2px -2px 0 #0000ff;
+    animation: glitch 1s infinite alternate;
+}
+
+@keyframes glitch {
+    0% { text-shadow: 2px 2px 0 #00ff00, -2px -2px 0 #0000ff; }
+    50% { text-shadow: -2px 2px 0 #00ff00, 2px -2px 0 #0000ff; }
+    100% { text-shadow: 2px -2px 0 #00ff00, -2px 2px 0 #0000ff; }
+}
+
+.hacker-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #00ff00;
+}
+
+.fake-progress-container {
+    width: 100%;
+    max-width: 500px;
+    height: 25px;
+    border: 2px solid #ff003c;
+    margin-bottom: 1rem;
+    position: relative;
+    background: #220000;
+}
+
+.fake-progress-bar {
+    height: 100%;
+    background-color: #ff003c;
+    width: 0%;
+    transition: width 0.4s ease;
+    animation: loadBar 5s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
+    box-shadow: 0 0 15px #ff003c;
+}
+
+@keyframes loadBar {
+    0% { width: 0%; }
+    20% { width: 15%; }
+    40% { width: 45%; }
+    60% { width: 60%; }
+    80% { width: 90%; }
+    100% { width: 95%; } /* Se queda en 95 hasta que salta a 100 por JS */
+}
+
+.progress-text {
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+}
+
+.warning-blink {
+    font-size: 1.4rem;
+    font-weight: bold;
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+
+/* =========================================
+   PÁGINA PRINCIPAL DE CONCIENTIZACIÓN
+   ========================================= */
+
+/* Background Animated Blobs */
+.background-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    filter: blur(120px);
+    border-radius: 50%;
+    animation: float 20s infinite ease-in-out alternate;
+}
+
+.blob.red {
+    width: 500px;
+    height: 500px;
+    background: var(--accent-red-glow);
+    top: -100px;
+    right: -100px;
+}
+
+.blob.blue {
+    width: 600px;
+    height: 600px;
+    background: var(--accent-blue-glow);
+    bottom: -150px;
+    left: -150px;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-100px, 100px) scale(1.2); }
+}
+
+/* Main Container */
+.glass-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 3rem;
+    max-width: 900px;
+    width: 100%;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    
+    /* Inicialmente oculto, esperando a que la pantalla de susto se vaya */
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.glass-container.animate-in {
+    animation: popInFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes popInFade {
+    0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Header */
+.hero {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.icon-pulse {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    background: rgba(239, 68, 68, 0.15);
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.icon-pulse::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.4);
+    z-index: -1;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+.warning-icon {
+    width: 50px;
+    height: 50px;
+    color: var(--accent-red);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #fca5a5, #ef4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.hero strong {
+    color: var(--text-main);
+}
+
+/* Alert Box */
+.alert-box {
+    display: flex;
+    gap: 1.5rem;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(30, 41, 59, 0.5) 100%);
+    border-left: 4px solid var(--accent-red);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.alert-box:hover {
+    transform: translateX(5px);
+    box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.2);
+}
+
+.alert-icon {
+    color: var(--accent-red);
+    padding-top: 0.2rem;
+}
+
+.alert-icon i {
+    width: 32px;
+    height: 32px;
+}
+
+.alert-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--accent-red);
+}
+
+.alert-content p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.alert-content p:last-child {
+    margin-bottom: 0;
+}
+
+.alert-content .highlight {
+    color: #cbd5e1;
+    font-weight: 600;
+    margin-top: 1.5rem;
+}
+
+/* Tips Section */
+.tips-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-main);
+}
+
+.tips-title i {
+    color: var(--accent-blue);
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.tip-card {
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.tip-card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tip-card:hover {
+    transform: translateY(-5px);
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+.tip-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-blue);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.tip-card:hover .tip-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.tip-card h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #e2e8f0;
+}
+
+.tip-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Footer */
+.footer {
+    margin-top: 3rem;
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .glass-container {
+        padding: 2rem 1.5rem;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .alert-box {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    body {
+        padding: 1rem;
+    }
+    
+    .glitch-text {
+        font-size: 2.2rem;
+    }
+}
+    </style>
+</head>
+<body>
+    
+    <!-- PANTALLA DE SUSTO INICIAL -->
+    <div id="scare-screen" class="scare-screen">
+        <div class="scare-content">
+            <i data-lucide="skull" class="skull-icon"></i>
+            <h1 class="glitch-text">¡SISTEMA COMPROMETIDO!</h1>
+            <p class="hacker-text">Se ha detectado un acceso no autorizado. Extrayendo datos confidenciales de la red...</p>
+            
+            <div class="fake-progress-container">
+                <div class="fake-progress-bar"></div>
+            </div>
+            <p class="progress-text">Progreso de extracción: <span id="progress-percentage">0</span>%</p>
+            
+            <p class="warning-blink">⚠ NO APAGUE EL EQUIPO. SUS DATOS SERÁN CIFRADOS EN BREVE. ⚠</p>
+        </div>
+    </div>
+
+    <!-- PÁGINA REAL DE CONCIENTIZACIÓN -->
+    <div class="background-blobs">
+        <div class="blob red"></div>
+        <div class="blob blue"></div>
+    </div>
+
+    <main class="glass-container" id="main-content">
+        <header class="hero">
+            <div class="icon-pulse">
+                <i data-lucide="alert-triangle" class="warning-icon"></i>
+            </div>
+            <h1>¡Alerta de Phishing!</h1>
+            <p class="subtitle">Tranquilo, el susto anterior y este correo fueron solo una <strong>simulación</strong> del equipo de Seguridad de la Información y Cibernética.</p>
+        </header>
+
+        <section class="alert-box">
+            <div class="alert-icon">
+                <i data-lucide="shield-alert"></i>
+            </div>
+            <div class="alert-content">
+                <h3>El Riesgo es Real</h3>
+                <p>Ignorar las señales de peligro o caer en este tipo de correos puede exponer información sensible de la organización.</p>
+                <p>Recuerda que reincidir en estas prácticas de descuido puede acarrear sanciones administrativas según las políticas internas de seguridad.</p>
+                <p class="highlight">¡Tu atención es clave para proteger los datos y la reputación del <strong>Banco del Tesoro, C.A. Banco Universal!</strong></p>
+            </div>
+        </section>
+
+        <section class="tips-section">
+            <h2 class="tips-title"><i data-lucide="lock" class="lock-icon"></i> 6 Consejos de Oro para Protegerte</h2>
+            <div class="tips-grid">
+                
+                <div class="tip-card" id="tip-1">
+                    <div class="tip-icon"><i data-lucide="mail-search"></i></div>
+                    <h4>Verifica el remitente</h4>
+                    <p>Revisa detalladamente la dirección del remitente antes de abrir cualquier enlace o descargar adjuntos.</p>
+                </div>
+
+                <div class="tip-card" id="tip-2">
+                    <div class="tip-icon"><i data-lucide="user-x"></i></div>
+                    <h4>Protege tus datos</h4>
+                    <p>Nunca compartas contraseñas, cédula o tarjetas por correo, WhatsApp, SMS o redes sociales.</p>
+                </div>
+
+                <div class="tip-card" id="tip-3">
+                    <div class="tip-icon"><i data-lucide="mouse-pointer-click"></i></div>
+                    <h4>Cuidado al hacer clic</h4>
+                    <p>No hagas clic en enlaces sospechosos ni descargues archivos desconocidos, aunque parezcan oficiales.</p>
+                </div>
+
+                <div class="tip-card" id="tip-4">
+                    <div class="tip-icon"><i data-lucide="keyboard"></i></div>
+                    <h4>Escribe tú la URL</h4>
+                    <p>Ingresa manualmente la dirección web en el navegador en lugar de confiar en los enlaces del correo.</p>
+                </div>
+
+                <div class="tip-card" id="tip-5">
+                    <div class="tip-icon"><i data-lucide="clock"></i></div>
+                    <h4>Cuidado con la urgencia</h4>
+                    <p>Los atacantes generan pánico o urgencia excesiva. Detente y revisa si hay errores de ortografía en el mensaje.</p>
+                </div>
+
+                <div class="tip-card" id="tip-6">
+                    <div class="tip-icon"><i data-lucide="help-circle"></i></div>
+                    <h4>Ante la duda, reporta</h4>
+                    <p>Si tienes dudas o algo no cuadra, no actúes. Consulta de inmediato con el área de Seguridad de la Información.</p>
+                </div>
+
+            </div>
+        </section>
+        
+        <footer class="footer">
+            <p>Seguridad de la Información y Cibernética • <strong>Banco del Tesoro</strong></p>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // Inicializar iconos de forma segura (por si el banco bloquea unpkg)
+        try {
+            lucide.createIcons();
+        } catch (e) {
+            console.error("No se pudieron cargar los iconos:", e);
+        }
+        
+        // Lógica de la pantalla de susto
+        const scareScreen = document.getElementById('scare-screen');
+        const progressPercentage = document.getElementById('progress-percentage');
+        const mainContent = document.getElementById('main-content');
+        let progress = 0;
+
+        // Simular progreso de descarga
+        const interval = setInterval(() => {
+            progress += Math.floor(Math.random() * 12) + 3;
+            if (progress > 95) progress = 95; // Se detiene en 95% para generar más tensión
+            progressPercentage.innerText = progress;
+        }, 400);
+
+        // Después de 5 segundos, revelar la página real
+        setTimeout(() => {
+            clearInterval(interval);
+            progressPercentage.innerText = "100"; // Salta a 100% de golpe
+            
+            setTimeout(() => {
+                // Animar salida de la pantalla de susto (cae hacia abajo)
+                scareScreen.classList.add('slide-down-reveal');
+                
+                // Cambiar el título de la pestaña de nuevo
+                document.title = "Simulación de Phishing | Banco del Tesoro";
+                
+                // Disparar animación de la página real
+                mainContent.classList.add('animate-in');
+                
+                // Remover la pantalla de susto del DOM después de que termine la animación
+                setTimeout(() => {
+                    scareScreen.style.display = 'none';
+                    
+                    // Iniciar observador de tarjetas de consejos
+                    initCardsObserver();
+                }, 1200);
+
+            }, 500); // Pequeña pausa en 100%
+            
+        }, 5000); // 5 segundos de susto inicial
+
+        // Función para animar las tarjetas una vez revelada la página
+        function initCardsObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.tip-card').forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.1}s`;
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>
