@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA COMPROMETIDO...</title>
+    <title>ATAQUE RANSOMWARE</title>
     <meta name="description" content="Página de concientización y recomendaciones de seguridad ante simulaciones de phishing del Banco del Tesoro.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
 :root {
-    --bg-color: #0f172a;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --accent-red: #ef4444;
-    --accent-red-glow: rgba(239, 68, 68, 0.5);
-    --accent-blue: #3b82f6;
-    --accent-blue-glow: rgba(59, 130, 246, 0.4);
-    --glass-bg: rgba(30, 41, 59, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --card-bg: rgba(15, 23, 42, 0.6);
+    /* COLORES DE LA MARCA (TEMA CLARO) */
+    --brand-blue: #009dda;
+    --brand-red: #fc2433;
+    --brand-yellow: #ffb900;
+    
+    --bg-color: #f8fafc;
+    --text-main: #1e293b;
+    --text-muted: #475569;
+    
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(0, 157, 218, 0.2);
+    --card-bg: #ffffff;
 }
 
 * {
@@ -40,7 +42,7 @@ body {
 }
 
 /* =========================================
-   PANTALLA DE SUSTO (SCARE SCREEN)
+   PANTALLA DE SUSTO (RANSOMWARE REALISTA MEJORADO)
    ========================================= */
 .scare-screen {
     position: fixed;
@@ -48,123 +50,195 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #050505;
+    background: radial-gradient(circle at center, #c30042 0%, #20000a 100%);
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    color: #ff003c;
-    font-family: 'Share Tech Mono', monospace;
     overflow: hidden;
-    transition: transform 1.2s cubic-bezier(0.8, -0.2, 0.2, 1);
-    box-shadow: inset 0 0 150px rgba(255, 0, 0, 0.2);
+    transition: transform 1s cubic-bezier(0.8, -0.2, 0.2, 1);
 }
 
 .scare-screen.slide-down-reveal {
-    /* La pantalla de susto cae hacia abajo revelando la página real */
     transform: translateY(100vh);
 }
 
-.scare-content {
+.binary-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.7;
+}
+
+/* Modal UI Realista */
+.ransomware-modal-container {
+    position: relative;
+    width: 90%;
+    max-width: 580px;
+    z-index: 10;
+}
+
+.warning-badge {
+    position: absolute;
+    top: -25px;
+    left: -20px;
+    background: transparent;
+    z-index: 11;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.15); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    60%, 100% { transform: scale(1); }
+}
+
+.ransomware-modal {
+    background: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 15px 60px rgba(0,0,0,0.9);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #777;
+    animation: randomGlitch 4s infinite;
+}
+
+@keyframes randomGlitch {
+    0%, 96%, 100% { transform: translate(0) skew(0); filter: none; }
+    97% { transform: translate(-3px, 2px) skew(-3deg); filter: hue-rotate(90deg) contrast(200%); }
+    98% { transform: translate(3px, -2px) skew(3deg); filter: invert(20%); }
+    99% { transform: translate(-1px, 1px) skew(-1deg); filter: none; }
+}
+
+.modal-header {
+    background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+    height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 15px;
+    border-bottom: 1px solid #aaa;
+}
+
+.header-title {
+    color: #333;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 2.5rem 3rem 3rem 3rem;
     text-align: center;
-    max-width: 800px;
-    padding: 2rem;
+    color: #333;
+}
+
+.modal-title {
+    color: #d11231;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+    letter-spacing: -0.5px;
+}
+
+.modal-subtitle {
+    color: #d11231;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* Caja de detalles de rescate (Contadores) */
+.ransom-details {
+    display: flex;
+    justify-content: space-between;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.detail-box {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 48%;
 }
 
-.skull-icon {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 1.5rem;
-    animation: shake 0.4s infinite;
-    filter: drop-shadow(0 0 10px #ff003c);
-}
-
-@keyframes shake {
-    0% { transform: translate(2px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: translate(-3px, 0px) rotate(1deg); }
-    30% { transform: translate(0px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(1deg); }
-    50% { transform: translate(-1px, 2px) rotate(-1deg); }
-    60% { transform: translate(-3px, 1px) rotate(0deg); }
-    70% { transform: translate(2px, 1px) rotate(-1deg); }
-    80% { transform: translate(-1px, -1px) rotate(1deg); }
-    90% { transform: translate(2px, 2px) rotate(0deg); }
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-.glitch-text {
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+.detail-label {
+    font-size: 0.85rem;
+    color: #555;
     text-transform: uppercase;
-    text-shadow: 2px 2px 0 #00ff00, -2px -2px 0 #0000ff;
-    animation: glitch 1s infinite alternate;
-}
-
-@keyframes glitch {
-    0% { text-shadow: 2px 2px 0 #00ff00, -2px -2px 0 #0000ff; }
-    50% { text-shadow: -2px 2px 0 #00ff00, 2px -2px 0 #0000ff; }
-    100% { text-shadow: 2px -2px 0 #00ff00, -2px 2px 0 #0000ff; }
-}
-
-.hacker-text {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    color: #00ff00;
-}
-
-.fake-progress-container {
-    width: 100%;
-    max-width: 500px;
-    height: 25px;
-    border: 2px solid #ff003c;
-    margin-bottom: 1rem;
-    position: relative;
-    background: #220000;
-}
-
-.fake-progress-bar {
-    height: 100%;
-    background-color: #ff003c;
-    width: 0%;
-    transition: width 0.4s ease;
-    animation: loadBar 5s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
-    box-shadow: 0 0 15px #ff003c;
-}
-
-@keyframes loadBar {
-    0% { width: 0%; }
-    20% { width: 15%; }
-    40% { width: 45%; }
-    60% { width: 60%; }
-    80% { width: 90%; }
-    100% { width: 95%; } /* Se queda en 95 hasta que salta a 100 por JS */
-}
-
-.progress-text {
-    font-size: 1.2rem;
-    margin-bottom: 3rem;
-}
-
-.warning-blink {
-    font-size: 1.4rem;
     font-weight: bold;
-    animation: blink 0.8s infinite;
+    margin-bottom: 0.5rem;
 }
 
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+.detail-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    font-family: 'Share Tech Mono', monospace;
+    color: #d11231;
+}
+
+.blink-fast {
+    animation: blink 0.5s infinite;
+}
+
+.modal-divider {
+    border: none;
+    border-top: 2px dashed #d11231;
+    width: 100%;
+    margin: 0 auto 1.5rem auto;
+}
+
+.modal-text {
+    font-size: 1.1rem;
+    color: #222;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.modal-threat {
+    font-size: 1.15rem;
+    color: #d11231;
+    font-weight: 800;
+    margin-top: 1rem;
+    text-transform: uppercase;
+}
+
+.pay-btn {
+    background: #d11231;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 2rem;
+    box-shadow: 0 4px 15px rgba(209, 18, 49, 0.4);
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+.pay-btn:hover {
+    background: #a30d25;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(209, 18, 49, 0.6);
 }
 
 
 /* =========================================
-   PÁGINA PRINCIPAL DE CONCIENTIZACIÓN
+   PÁGINA PRINCIPAL DE CONCIENTIZACIÓN (TEMA BLANCO)
    ========================================= */
 
 /* Background Animated Blobs */
@@ -176,6 +250,7 @@ body {
     height: 100%;
     z-index: -1;
     overflow: hidden;
+    background-color: #f0f4f8;
 }
 
 .blob {
@@ -188,7 +263,7 @@ body {
 .blob.red {
     width: 500px;
     height: 500px;
-    background: var(--accent-red-glow);
+    background: rgba(252, 36, 51, 0.15);
     top: -100px;
     right: -100px;
 }
@@ -196,30 +271,38 @@ body {
 .blob.blue {
     width: 600px;
     height: 600px;
-    background: var(--accent-blue-glow);
+    background: rgba(0, 157, 218, 0.15);
     bottom: -150px;
     left: -150px;
     animation-delay: -10s;
 }
 
+.blob.yellow {
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 185, 0, 0.15);
+    top: 30%;
+    left: 40%;
+    animation-delay: -5s;
+}
+
 @keyframes float {
     0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-100px, 100px) scale(1.2); }
+    100% { transform: translate(-50px, 50px) scale(1.1); }
 }
 
 /* Main Container */
 .glass-container {
     background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     border: 1px solid var(--glass-border);
     border-radius: 24px;
     padding: 3rem;
     max-width: 900px;
     width: 100%;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 157, 218, 0.15);
     
-    /* Inicialmente oculto, esperando a que la pantalla de susto se vaya */
     opacity: 0;
     transform: scale(0.95);
 }
@@ -245,7 +328,7 @@ body {
     align-items: center;
     width: 100px;
     height: 100px;
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(252, 36, 51, 0.1);
     border-radius: 50%;
     margin-bottom: 1.5rem;
     position: relative;
@@ -257,7 +340,7 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: rgba(239, 68, 68, 0.4);
+    background: rgba(252, 36, 51, 0.2);
     z-index: -1;
     animation: pulse 2s infinite;
 }
@@ -270,36 +353,36 @@ body {
 .warning-icon {
     width: 50px;
     height: 50px;
-    color: var(--accent-red);
+    color: var(--brand-red);
 }
 
 .hero h1 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 800;
     margin-bottom: 1rem;
-    background: linear-gradient(to right, #fca5a5, #ef4444);
+    background: linear-gradient(to right, var(--brand-red), var(--brand-yellow));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .hero .subtitle {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: var(--text-muted);
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto;
     line-height: 1.6;
 }
 
 .hero strong {
-    color: var(--text-main);
+    color: var(--brand-blue);
 }
 
 /* Alert Box */
 .alert-box {
     display: flex;
     gap: 1.5rem;
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(30, 41, 59, 0.5) 100%);
-    border-left: 4px solid var(--accent-red);
+    background: linear-gradient(135deg, rgba(252, 36, 51, 0.05) 0%, rgba(255, 185, 0, 0.05) 100%);
+    border-left: 5px solid var(--brand-red);
     padding: 2rem;
     border-radius: 16px;
     margin-bottom: 3rem;
@@ -308,11 +391,11 @@ body {
 
 .alert-box:hover {
     transform: translateX(5px);
-    box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.2);
+    box-shadow: 0 10px 25px -5px rgba(252, 36, 51, 0.15);
 }
 
 .alert-icon {
-    color: var(--accent-red);
+    color: var(--brand-red);
     padding-top: 0.2rem;
 }
 
@@ -322,9 +405,9 @@ body {
 }
 
 .alert-content h3 {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     margin-bottom: 0.75rem;
-    color: var(--accent-red);
+    color: var(--brand-red);
 }
 
 .alert-content p {
@@ -338,8 +421,8 @@ body {
 }
 
 .alert-content .highlight {
-    color: #cbd5e1;
-    font-weight: 600;
+    color: var(--text-main);
+    font-weight: 700;
     margin-top: 1.5rem;
 }
 
@@ -348,29 +431,31 @@ body {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-bottom: 2rem;
     color: var(--text-main);
 }
 
 .tips-title i {
-    color: var(--accent-blue);
+    color: var(--brand-yellow);
+    filter: drop-shadow(0 2px 5px rgba(255, 185, 0, 0.3));
 }
 
 .tips-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 1.5rem;
 }
 
 .tip-card {
     background: var(--card-bg);
-    border: 1px solid var(--glass-border);
+    border: 1px solid #e2e8f0;
     padding: 1.5rem;
     border-radius: 16px;
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(20px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .tip-card.show {
@@ -380,32 +465,34 @@ body {
 
 .tip-card:hover {
     transform: translateY(-5px);
-    background: rgba(30, 41, 59, 0.9);
-    border-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 15px rgba(59, 130, 246, 0.2);
+    border-color: var(--brand-blue);
+    box-shadow: 0 10px 25px -5px rgba(0, 157, 218, 0.2);
 }
 
 .tip-icon {
     width: 48px;
     height: 48px;
-    background: rgba(59, 130, 246, 0.1);
+    background: rgba(0, 157, 218, 0.1);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--accent-blue);
+    color: var(--brand-blue);
     margin-bottom: 1rem;
     transition: transform 0.3s ease;
 }
 
 .tip-card:hover .tip-icon {
     transform: scale(1.1) rotate(5deg);
+    background: var(--brand-blue);
+    color: #fff;
 }
 
 .tip-card h4 {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     margin-bottom: 0.5rem;
-    color: #e2e8f0;
+    color: var(--text-main);
+    font-weight: 700;
 }
 
 .tip-card p {
@@ -419,7 +506,7 @@ body {
     margin-top: 3rem;
     text-align: center;
     padding-top: 2rem;
-    border-top: 1px solid var(--glass-border);
+    border-top: 1px solid #e2e8f0;
     color: var(--text-muted);
     font-size: 0.9rem;
 }
@@ -431,7 +518,7 @@ body {
     }
     
     .hero h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
     
     .alert-box {
@@ -443,34 +530,76 @@ body {
         padding: 1rem;
     }
     
-    .glitch-text {
-        font-size: 2.2rem;
+    .modal-body {
+        padding: 2rem 1.5rem;
+    }
+    
+    .modal-title {
+        font-size: 1.6rem;
+    }
+    
+    .ransom-details {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .detail-box {
+        width: 100%;
     }
 }
     </style>
 </head>
 <body>
     
-    <!-- PANTALLA DE SUSTO INICIAL -->
+    <!-- PANTALLA DE SUSTO INICIAL (RANSOMWARE POPUP REALISTA) -->
     <div id="scare-screen" class="scare-screen">
-        <div class="scare-content">
-            <i data-lucide="skull" class="skull-icon"></i>
-            <h1 class="glitch-text">¡SISTEMA COMPROMETIDO!</h1>
-            <p class="hacker-text">Se ha detectado un acceso no autorizado. Extrayendo datos confidenciales de la red...</p>
-            
-            <div class="fake-progress-container">
-                <div class="fake-progress-bar"></div>
+        <!-- Efecto Matrix Rojo de Fondo -->
+        <canvas id="binary-canvas" class="binary-bg"></canvas>
+        
+        <div class="ransomware-modal-container">
+            <div class="warning-badge">
+                <svg width="70" height="70" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2L1 21h22L12 2z" stroke="#d11231" stroke-width="3" stroke-linejoin="round"/>
+                    <path d="M12 9v5" stroke="#d11231" stroke-width="2.5" stroke-linecap="round"/>
+                    <circle cx="12" cy="17.5" r="1.2" fill="#d11231"/>
+                </svg>
             </div>
-            <p class="progress-text">Progreso de extracción: <span id="progress-percentage">0</span>%</p>
             
-            <p class="warning-blink">⚠ NO APAGUE EL EQUIPO. SUS DATOS SERÁN CIFRADOS EN BREVE. ⚠</p>
+            <div class="ransomware-modal glitch-element">
+                <div class="modal-header">
+                    <span class="header-title">System Alert - Windows Defender</span>
+                </div>
+                <div class="modal-body">
+                    <h1 class="modal-title">ATAQUE RANSOMWARE</h1>
+                    <p class="modal-subtitle">Sus archivos personales han sido encriptados</p>
+                    
+                    <div class="ransom-details">
+                        <div class="detail-box">
+                            <span class="detail-label">Archivos Cifrados</span>
+                            <span class="detail-value" id="encrypted-count">12,045</span>
+                        </div>
+                        <div class="detail-box">
+                            <span class="detail-label">Tiempo Restante</span>
+                            <span class="detail-value blink-fast" id="countdown-timer">119:59:59</span>
+                        </div>
+                    </div>
+                    
+                    <hr class="modal-divider">
+                    
+                    <p class="modal-text">Tienes que enviar el pago en Bitcoin para recibir la clave de desbloqueo.</p>
+                    <p class="modal-threat">SI EL TIEMPO EXPIRA, LA CLAVE SERÁ DESTRUIDA.</p>
+                    
+                    <button class="pay-btn" id="fake-pay-btn">PAGAR RESCATE AHORA</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- PÁGINA REAL DE CONCIENTIZACIÓN -->
+    <!-- PÁGINA REAL DE CONCIENTIZACIÓN (TEMA CLARO / BLANCO) -->
     <div class="background-blobs">
         <div class="blob red"></div>
         <div class="blob blue"></div>
+        <div class="blob yellow"></div>
     </div>
 
     <main class="glass-container" id="main-content">
@@ -544,54 +673,116 @@ body {
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
-        // Inicializar iconos de forma segura (por si el banco bloquea unpkg)
+        // Inicializar iconos de forma segura
         try {
             lucide.createIcons();
         } catch (e) {
             console.error("No se pudieron cargar los iconos:", e);
         }
         
-        // Lógica de la pantalla de susto
+        // ==========================================
+        // Efecto Cascada de Números Binarios (Matrix)
+        // ==========================================
+        const canvas = document.getElementById('binary-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        const letters = '01';
+        const fontSize = 18;
+        let columns = Math.floor(canvas.width / fontSize);
+        let drops = [];
+        
+        for(let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(10, 0, 0, 0.1)'; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = 'rgba(255, 30, 80, 0.35)'; 
+            ctx.font = fontSize + 'px Share Tech Mono, monospace';
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        const matrixInterval = setInterval(drawMatrix, 50);
+
+        // ==========================================
+        // Lógica Interactiva del Ransomware
+        // ==========================================
+        
+        // 1. Animación del ícono de advertencia (Latido)
+        // Está en CSS (heartbeat)
+        
+        // 2. Contador de archivos encriptados subiendo rápidamente
+        const encryptedCountEl = document.getElementById('encrypted-count');
+        let filesCount = 12045;
+        const countInterval = setInterval(() => {
+            filesCount += Math.floor(Math.random() * 25) + 3;
+            encryptedCountEl.innerText = filesCount.toLocaleString();
+        }, 80);
+
+        // 3. Cuenta regresiva de tiempo real
+        const countdownTimerEl = document.getElementById('countdown-timer');
+        let totalSeconds = 431999; // Aproximadamente 5 días (119:59:59)
+        const timerInterval = setInterval(() => {
+            totalSeconds--;
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+            countdownTimerEl.innerText = `${h.toString().padStart(3, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }, 1000);
+
+
+        // ==========================================
+        // Transición a la página real
+        // ==========================================
         const scareScreen = document.getElementById('scare-screen');
-        const progressPercentage = document.getElementById('progress-percentage');
         const mainContent = document.getElementById('main-content');
-        let progress = 0;
+        const fakePayBtn = document.getElementById('fake-pay-btn');
 
-        // Simular progreso de descarga
-        const interval = setInterval(() => {
-            progress += Math.floor(Math.random() * 12) + 3;
-            if (progress > 95) progress = 95; // Se detiene en 95% para generar más tensión
-            progressPercentage.innerText = progress;
-        }, 400);
-
-        // Después de 5 segundos, revelar la página real
-        setTimeout(() => {
-            clearInterval(interval);
-            progressPercentage.innerText = "100"; // Salta a 100% de golpe
+        function revealMainPage() {
+            clearInterval(matrixInterval);
+            clearInterval(countInterval);
+            clearInterval(timerInterval);
+            
+            scareScreen.classList.add('slide-down-reveal');
+            document.title = "Simulación de Phishing | Banco del Tesoro";
+            mainContent.classList.add('animate-in');
             
             setTimeout(() => {
-                // Animar salida de la pantalla de susto (cae hacia abajo)
-                scareScreen.classList.add('slide-down-reveal');
-                
-                // Cambiar el título de la pestaña de nuevo
-                document.title = "Simulación de Phishing | Banco del Tesoro";
-                
-                // Disparar animación de la página real
-                mainContent.classList.add('animate-in');
-                
-                // Remover la pantalla de susto del DOM después de que termine la animación
-                setTimeout(() => {
-                    scareScreen.style.display = 'none';
-                    
-                    // Iniciar observador de tarjetas de consejos
-                    initCardsObserver();
-                }, 1200);
+                scareScreen.style.display = 'none';
+                initCardsObserver();
+            }, 1000);
+        }
 
-            }, 500); // Pequeña pausa en 100%
-            
-        }, 5000); // 5 segundos de susto inicial
+        // Si intenta hacer clic en Pagar, se revela la verdad al instante
+        fakePayBtn.addEventListener('click', () => {
+            revealMainPage();
+        });
 
-        // Función para animar las tarjetas una vez revelada la página
+        // O desaparece solo después de 8 segundos de tensión
+        setTimeout(() => {
+            if (scareScreen.style.display !== 'none') {
+                revealMainPage();
+            }
+        }, 8000);
+
+        // Función para animar las tarjetas de la lección
         function initCardsObserver() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
